@@ -38,7 +38,6 @@
     "url": "https://github.com/bluzi/awesome-google-tasks/issues",
     "email": "eliran013@gmail.com"
   },
-  "homepage": "https://github.com/bluzi/awesome-google-tasks",
   "browserslist": {
     "development": [
       "last 1 chrome versions"
