@@ -1,6 +1,10 @@
 ## Awesome Google Tasks
 Alternative Web UI for Google Tasks made with React
 
+<div align="center">
+  <img src="https://image.ibb.co/czS7V8/Screen_Shot_2018_06_08_at_9_45_15_AM.png" />
+</div>
+
 ### Why?
 Google Tasks is awesome, and it has a [beautiful mobile app](https://play.google.com/store/apps/details?id=com.google.android.apps.tasks&hl=en), but for some reason, [someone in Google completely forgot the Web UI in the 90's](https://mail.google.com/tasks/canvas).
 I couldn't stand aside watching the wasted potential, so I took matters into my own hands and created this web app.
@@ -17,7 +21,7 @@ If you find any other differences between Awesome Google Tasks to the official c
 Awesome Google Tasks is implemented using React and [bluzi/google-tasks-api](https://github.com/bluzi/google-tasks-api).
 You can use [bluzi/google-tasks-api](https://github.com/bluzi/google-tasks-api) to create your own client, or to create other services that integrate with Google Tasks.
 I've tried to make it easier to communicate with Google Tasks API, as I found it pretty over-complicated.
-Feel free to browse the code and ask questions by [creating issues](https://github.com/bluzi/awesome-google-tasks/issues) or by mail (eliran013@gmail.com), one aspect of this repository is to be a sample app for such integrations. 
+Feel free to browse the code and ask questions by [creating issues](https://github.com/bluzi/awesome-google-tasks/issues) or by mail (info@awesomegoogletasks.com), one aspect of this repository is to be a sample app for such integrations. 
 
 ### Contributions
 Plesae feel free to ask for features by [creating issues](https://github.com/bluzi/awesome-google-tasks/issues), or to implement features by [creating pull requests](https://github.com/bluzi/awesome-google-tasks/pulls).
