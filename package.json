@@ -1,0 +1,50 @@
+{
+  "name": "awesome-google-tasks",
+  "description": "Google Tasks for humans: Alternative Web UI for Google Tasks made with React",
+  "author": "Eliran Pe'er <eliran013@gmail.com> (https://github.com/bluzi)",
+  "version": "0.1.0",
+  "dependencies": {
+    "@material-ui/core": "^1.2.0",
+    "@material-ui/icons": "^1.1.0",
+    "babel-polyfill": "^6.26.0",
+    "dateformat": "^3.0.3",
+    "google-tasks-api": "^1.1.4",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-scripts": "^2.0.0-next.66cc7a90"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "keywords": [
+    "Google Tasks",
+    "Todo",
+    "Tasks",
+    "React"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bluzi/awesome-google-tasks"
+  },
+  "bugs": {
+    "url": "https://github.com/bluzi/awesome-google-tasks/issues",
+    "email": "eliran013@gmail.com"
+  },
+  "homepage": "https://github.com/bluzi/awesome-google-tasks",
+  "browserslist": {
+    "development": [
+      "last 1 chrome versions"
+    ],
+    "production": [
+      "last 1 chrome versions"
+    ]
+  }
+}

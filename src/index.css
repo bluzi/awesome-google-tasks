@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.tasks-card {
+  margin: 20px;
+  padding: 0;
+}
+
+.tasks-card h2 {
+  margin: 20px;
+  margin-bottom: 16px;
+}
+
+.tasks-card .task {
+  display: flex;
+  flex-direction: row;
+  padding: 5px 10px;
+  margin: 0px 1px;
+}
+
+.tasks-card .task:not(:last-child) {
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.tasks-card .task .task-title {
+  flex: 1;
+  outline: none;
+  border: 0;
+  font-size: 14px;
+}
+
+.tasks-card .task.completed .task-title {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+
+.tasks-card .task .chip-container {
+  display: flex; 
+  align-items: center;
+  margin-right: 10px;
+}
