@@ -2,7 +2,7 @@
 Alternative Web UI for Google Tasks made with React
 
 <div align="center">
-  <img src="https://image.ibb.co/czS7V8/Screen_Shot_2018_06_08_at_9_45_15_AM.png" />
+  <img src="https://image.ibb.co/iOLSV8/Screen_Shot_2018_06_08_at_9_47_29_AM.png" />
 </div>
 
 ### Why?
