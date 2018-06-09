@@ -33,12 +33,21 @@ const styles = theme => ({
     // },
     // primary: {},
     // icon: {},
+
+    selected: {
+        backgroundColor: '#f1f1f1'
+    }
 });
 
 class TaskLists extends Component {
     state = {
         pressedList: undefined,
         menuAnchorElement: undefined,
+        selectedIndex: 0,
+    }
+
+    componentDidMount() {
+        document.addEventListener("keydown", event => this.handleKeyDown(event));
     }
 
     render() {
@@ -77,8 +86,8 @@ class TaskLists extends Component {
                 </List>
                 <Divider />
                 <MenuList>
-                    {this.props.lists.map(list =>
-                        <MenuItem className={list.id === this.props.selectedListId ? classes.selectedMenuItem : ''} onClick={() => this.handleListClick(list)} key={list.id}>
+                    {this.props.lists.map((list, index) =>
+                        <MenuItem className={(list.id === this.props.selectedListId ? classes.selectedMenuItem : '') + ' ' + (this.props.isSelected && this.state.selectedIndex === index && classes.selected)} onClick={() => this.handleListClick(list)} key={list.id}>
                             <ListItemIcon className={classes.icon}>
                                 <Icon>chevron_right</Icon>
                             </ListItemIcon>
@@ -146,6 +155,24 @@ class TaskLists extends Component {
 
     handleMenuClose() {
         this.setState({ pressedList: undefined, menuAnchorElement: undefined });
+    }
+
+    handleKeyDown(event) {
+        if (!this.props.isSelected) return;
+
+        const upArrow = 38;
+        const downArrow = 40;
+        const enter = 13;
+
+        if (event.keyCode === upArrow) {
+            const selectedIndex = (this.state.selectedIndex - 1 < 0) ? this.props.lists.length - 1 : (this.state.selectedIndex - 1);
+            this.setState({ selectedIndex });
+        } else if (event.keyCode === downArrow) {
+            const selectedIndex = (this.state.selectedIndex + 1 > this.props.lists.length - 1) ? 0 : (this.state.selectedIndex + 1);
+            this.setState({ selectedIndex });
+        } else if (event.keyCode === enter && this.props.lists[this.state.selectedIndex]) {
+            this.props.onSelectedListChanged(this.props.lists[this.state.selectedIndex]);
+        }
     }
 }
 

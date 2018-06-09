@@ -37,6 +37,14 @@ body {
   text-decoration: line-through;
 }
 
+.tasks-card .task.selected {
+  background-color: #f1f1f1;
+}
+
+.tasks-card .task.selected input {
+  background-color: #f1f1f1;
+}
+
 .tasks-card .task .chip-container {
   display: flex; 
   align-items: center;

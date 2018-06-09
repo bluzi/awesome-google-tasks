@@ -25,13 +25,12 @@ const styles = theme => ({
 });
 
 class Tasks extends Component {
-    state = {};
+    state = {
+        selectedIndex: 0,
+    };
 
-    handleKeyUp(event) {
-        if (event.keyCode === 13) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
+    componentDidMount() {
+        document.addEventListener("keydown", event => this.handleKeyDown(event));
     }
 
     render() {
@@ -58,11 +57,11 @@ class Tasks extends Component {
                     }
 
                     {tasks.map((task, index) =>
-                        <div className={"task " + (task.status === 'completed' && 'completed')} key={task.id}>
+                        <div className={"task " + (task.status === 'completed' && 'completed') + (this.props.isSelected && this.state.selectedIndex === index && ' selected')} key={task.id}>
                             <Tooltip title={task.notes || ''} disableHoverListener={!task.notes}>
                                 <Checkbox readOnly={!this.props.selectedList.id} checked={task.status === 'completed'} onChange={() => this.props.onTaskCheck(task)} />
                             </Tooltip>
-                            
+
                             <input
                                 type="text"
                                 autoFocus={index === 0}
@@ -97,6 +96,31 @@ class Tasks extends Component {
                 </Tooltip>
             </div>
         );
+    }
+
+    handleKeyUp(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+
+    handleKeyDown(event) {
+        if (!this.props.isSelected) return;
+
+        const upArrow = 38;
+        const downArrow = 40;
+        const enter = 13;
+
+        if (event.keyCode === upArrow) {
+            const selectedIndex = (this.state.selectedIndex - 1 < 0) ? this.props.tasks.length - 1 : (this.state.selectedIndex - 1);
+            this.setState({ selectedIndex });
+        } else if (event.keyCode === downArrow) {
+            const selectedIndex = (this.state.selectedIndex + 1 > this.props.tasks.length - 1) ? 0 : (this.state.selectedIndex + 1);
+            this.setState({ selectedIndex });
+        } else if (event.keyCode === enter && this.props.tasks[this.state.selectedIndex]) {
+            this.props.onTaskCheck(this.props.tasks[this.state.selectedIndex]);
+        }
     }
 }
 

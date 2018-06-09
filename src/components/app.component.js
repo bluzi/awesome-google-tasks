@@ -13,8 +13,6 @@ import Tasks from './tasks.component';
 import config from './../config';
 import googleTasksApi from 'google-tasks-api';
 
-//     "react-scripts": "1.1.4"
-
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -44,6 +42,7 @@ class App extends Component {
     notification: undefined,
     editedList: undefined,
     editedTask: undefined,
+    selectedItem: undefined,
   };
 
   constructor() {
@@ -65,6 +64,13 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
 
   render() {
     const { classes } = this.props;
@@ -107,8 +113,9 @@ class App extends Component {
               selectedListId={this.state.selectedList.id || this.state.selectedList}
               onSelectedListChanged={this.handleSelectedListChange.bind(this)}
               onRenameList={this.handleRenameList.bind(this)}
-              onDeleteList={this.handleDeleteList.bind(this)} 
-              onAboutClick={this.handleAboutClick.bind(this)} />
+              onDeleteList={this.handleDeleteList.bind(this)}
+              onAboutClick={this.handleAboutClick.bind(this)}
+              isSelected={this.state.selectedItem === 'taskLists'} />
 
             <Tasks
               title={title}
@@ -118,7 +125,8 @@ class App extends Component {
               onTaskCheck={this.handleTaskCheck.bind(this)}
               onDeleteTask={this.handleDeleteTask.bind(this)}
               onEditTask={this.handleEditTask.bind(this)}
-              onNewTask={this.handleNewTask.bind(this)} />
+              onNewTask={this.handleNewTask.bind(this)}
+              isSelected={this.state.selectedItem === 'tasks'} />
 
             {this.state.isCreateTaskListDialogOpen &&
               <CreateTaskListDiaog
@@ -151,6 +159,16 @@ class App extends Component {
           </div>
         </MuiThemeProvider>
       );
+    }
+  }
+
+  handleKeyDown(event) {
+    const leftArrow = 37;
+    const rightArrow = 39;
+    if (event.keyCode === leftArrow) {
+      this.setState({ selectedItem: 'taskLists' });
+    } else if (event.keyCode === rightArrow) {
+      this.setState({ selectedItem: 'tasks' });
     }
   }
 
