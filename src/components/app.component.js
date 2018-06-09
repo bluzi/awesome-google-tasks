@@ -38,11 +38,11 @@ class App extends Component {
     tasks: [],
     isDrawerOpen: false,
     isInitializing: true,
-    isCreateTaskListDialogOpen: false,
     notification: undefined,
     editedList: undefined,
     editedTask: undefined,
-    selectedItem: undefined,
+    selectedItem: 'tasks',
+    openDialog: undefined,
   };
 
   constructor() {
@@ -111,38 +111,42 @@ class App extends Component {
             <TaskLists
               lists={this.state.lists}
               selectedListId={this.state.selectedList.id || this.state.selectedList}
+              isSelected={!this.state.openDialog && this.state.selectedItem === 'taskLists'}
               onSelectedListChanged={this.handleSelectedListChange.bind(this)}
               onRenameList={this.handleRenameList.bind(this)}
               onDeleteList={this.handleDeleteList.bind(this)}
               onAboutClick={this.handleAboutClick.bind(this)}
-              isSelected={this.state.selectedItem === 'taskLists'} />
+              onNewList={this.handleNewTaskList.bind(this)}
+              onSelect={() => this.setState({ selectedItem: 'taskLists' })} />
 
             <Tasks
               title={title}
               tasks={this.state.tasks}
               selectedList={this.state.selectedList}
+              isSelected={!this.state.openDialog && this.state.selectedItem === 'tasks'}
               onTaskUpdate={this.handleTaskUpdate.bind(this)}
               onTaskCheck={this.handleTaskCheck.bind(this)}
               onDeleteTask={this.handleDeleteTask.bind(this)}
               onEditTask={this.handleEditTask.bind(this)}
               onNewTask={this.handleNewTask.bind(this)}
-              isSelected={this.state.selectedItem === 'tasks'} />
+              onSelect={() => this.setState({ selectedItem: 'tasks' })}
+              />
 
-            {this.state.isCreateTaskListDialogOpen &&
+            {this.state.openDialog === 'list' &&
               <CreateTaskListDiaog
                 title={this.state.editedList ? this.state.editedList.title : ''}
                 isEditMode={Boolean(this.state.editedList)}
                 onSubmit={this.handleCreateTaskListSubmit.bind(this)}
                 onCancel={this.handleCreateTaskListCancel.bind(this)} />}
 
-            {this.state.editedTask &&
+            {this.state.openDialog === 'task' &&
               <CreateTaskDialog
                 isEditMode={true}
                 task={this.state.editedTask}
                 onSubmit={this.handleEditTaskSubmit.bind(this)}
                 onCancel={this.handleEditTaskCancel.bind(this)} />}
 
-            {this.state.isAboutDialogOpen && <AboutDialog onClose={this.handleAboutClose.bind(this)} />}
+            {this.state.openDialog === 'about' && <AboutDialog onClose={this.handleAboutClose.bind(this)} />}
 
             {this.state.notification &&
               <Snackbar
@@ -163,12 +167,17 @@ class App extends Component {
   }
 
   handleKeyDown(event) {
-    const leftArrow = 37;
-    const rightArrow = 39;
-    if (event.keyCode === leftArrow) {
+    const leftArrowKey = 37;
+    const rightArrowKey = 39;
+    const allTasksKey = 65;
+
+    if (event.keyCode === leftArrowKey) {
       this.setState({ selectedItem: 'taskLists' });
-    } else if (event.keyCode === rightArrow) {
+    } else if (event.keyCode === rightArrowKey) {
       this.setState({ selectedItem: 'tasks' });
+    } else if (event.ctrlKey + event.keyCode === allTasksKey) {
+      this.handleSelectedListChange('all');
+      event.preventDefault();
     }
   }
 
@@ -181,11 +190,11 @@ class App extends Component {
   }
 
   handleAboutClick() {
-    this.setState({ isAboutDialogOpen: true });
+    this.setState({ openDialog: 'about' });
   }
 
   handleAboutClose() {
-    this.setState({ isAboutDialogOpen: false });
+    this.setState({ openDialog: undefined });
   }
 
   async handleClearCompletedTasks(list) {
@@ -196,11 +205,11 @@ class App extends Component {
   }
 
   async handleRenameList(list) {
-    this.setState({ editedList: list, isCreateTaskListDialogOpen: true });
+    this.setState({ editedList: list, openDialog: 'list' });
   }
 
   async handleDeleteList(list) {
-    this.setState({ isCreateTaskListDialogOpen: false, isLoading: true });
+    this.setState({ openDialog: undefined, isLoading: true });
     await googleTasksApi.deleteTaskList({ taskListId: list.id });
     const newTaskLists = await googleTasksApi.listTaskLists();
     this.setState({ isLoading: false, lists: newTaskLists });
@@ -208,15 +217,15 @@ class App extends Component {
   }
 
   handleEditTask(task) {
-    this.setState({ editedTask: task });
+    this.setState({ editedTask: task, openDialog: 'task' });
   }
 
   handleEditTaskCancel() {
-    this.setState({ editedTask: undefined });
+    this.setState({ editedTask: undefined, openDialog: undefined });
   }
 
   async handleEditTaskSubmit(changedTask) {
-    this.setState({ editedTask: undefined });
+    this.setState({ editedTask: undefined, openDialog: undefined });
 
     const newTasks = this.state.tasks.map(task => task.id === changedTask.id ? changedTask : task);
     this.setState({ tasks: newTasks });
@@ -258,7 +267,7 @@ class App extends Component {
   }
 
   async handleCreateTaskListSubmit(title) {
-    this.setState({ isCreateTaskListDialogOpen: false, isLoading: true });
+    this.setState({ openDialog: undefined, isLoading: true });
 
     if (title) {
       if (this.state.editedList) {
@@ -275,11 +284,11 @@ class App extends Component {
   }
 
   handleCreateTaskListCancel() {
-    this.setState({ isCreateTaskListDialogOpen: false });
+    this.setState({ openDialog: undefined });
   }
 
   handleNewTaskList() {
-    this.setState({ isCreateTaskListDialogOpen: true });
+    this.setState({ openDialog: 'list' });
   }
 
   handleTaskUpdate(changedTask, newTitle) {

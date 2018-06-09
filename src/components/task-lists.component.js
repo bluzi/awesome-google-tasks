@@ -11,7 +11,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { MenuList } from '@material-ui/core';
+import classNames from 'classnames';
 import config from './../config';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -85,25 +85,26 @@ class TaskLists extends Component {
                     </ListItem>
                 </List>
                 <Divider />
-                <MenuList>
+                <List>
                     {this.props.lists.map((list, index) =>
-                        <MenuItem className={(list.id === this.props.selectedListId ? classes.selectedMenuItem : '') + ' ' + (this.props.isSelected && this.state.selectedIndex === index && classes.selected)} onClick={() => this.handleListClick(list)} key={list.id}>
+                        <ListItem className={classNames({
+                            [classes.selectedMenuItem]: list.id === this.props.selectedListId,
+                            [classes.selected]: this.props.isSelected && this.state.selectedIndex === index
+                        })} onClick={() => this.handleListClick(list)} key={list.id} onMouseOver={() => this.select(index)}>
                             <ListItemIcon className={classes.icon}>
                                 <Icon>chevron_right</Icon>
                             </ListItemIcon>
 
                             <ListItemText inset primary={list.title} />
 
-                            {list.id !== this.props.selectedListId &&
-                                <ListItemSecondaryAction>
-                                    <IconButton onClick={event => this.handleMoreClick(list, event.currentTarget)}>
-                                        <Icon>more_vert</Icon>
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            }
-                        </MenuItem>
+                            <ListItemSecondaryAction>
+                                <IconButton onClick={event => this.handleMoreClick(list, event.currentTarget)}>
+                                    <Icon>more_vert</Icon>
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
                     )}
-                </MenuList>
+                </List>
                 <Divider />
                 <List>
                     <ListItem button onClick={() => window.open('https://www.github.com/bluzi/awesome-google-tasks')}>
@@ -163,6 +164,9 @@ class TaskLists extends Component {
         const upArrow = 38;
         const downArrow = 40;
         const enter = 13;
+        const edit = 69;
+        const del = 68;
+        const newKey = 78;
 
         if (event.keyCode === upArrow) {
             const selectedIndex = (this.state.selectedIndex - 1 < 0) ? this.props.lists.length - 1 : (this.state.selectedIndex - 1);
@@ -170,9 +174,24 @@ class TaskLists extends Component {
         } else if (event.keyCode === downArrow) {
             const selectedIndex = (this.state.selectedIndex + 1 > this.props.lists.length - 1) ? 0 : (this.state.selectedIndex + 1);
             this.setState({ selectedIndex });
-        } else if (event.keyCode === enter && this.props.lists[this.state.selectedIndex]) {
-            this.props.onSelectedListChanged(this.props.lists[this.state.selectedIndex]);
+        } else if (this.props.lists[this.state.selectedIndex]) {
+            const selectedList = this.props.lists[this.state.selectedIndex];
+
+            if (event.keyCode === enter) {
+                this.props.onSelectedListChanged(selectedList);
+            } else if (event.ctrlKey && event.keyCode === edit) {
+                this.props.onRenameList(selectedList);
+            } else if (event.ctrlKey && event.keyCode === del) {
+                this.props.onDeleteList(selectedList);
+            } else if (event.ctrlKey && event.keyCode === newKey) {
+                this.props.onNewList();
+            }
         }
+    }
+
+    select(index) {
+        this.props.onSelect();
+        this.setState({ selectedIndex: index });
     }
 }
 

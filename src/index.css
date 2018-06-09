@@ -50,3 +50,8 @@ body {
   align-items: center;
   margin-right: 10px;
 }
+
+.tip {
+  font-size: 0.8em;
+  text-align: center;
+}

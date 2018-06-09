@@ -7,14 +7,14 @@
     "@material-ui/core": "^1.2.0",
     "@material-ui/icons": "^1.1.0",
     "babel-polyfill": "^6.26.0",
+    "classnames": "^2.2.6",
     "dateformat": "^3.0.3",
     "google-tasks-api": "^1.1.4",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-scripts": "^2.0.0-next.66cc7a90"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
