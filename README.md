@@ -25,6 +25,21 @@ You can use [bluzi/google-tasks-api](https://github.com/bluzi/google-tasks-api) 
 I've tried to make it easier to communicate with Google Tasks API, as I found it pretty over-complicated.
 Feel free to browse the code and ask questions by [creating issues](https://github.com/bluzi/awesome-google-tasks/issues) or by mail (info@awesomegoogletasks.com), one aspect of this repository is to be a sample app for such integrations. 
 
+### Awesome Features
+#### Keyboard Shortcuts
+The following shortcuts are available: 
+- Use the left and right arrow keys to navigate between the tasks panel and the lists panel
+- Use the up and down arrow keys to navigate between tasks/lists (depends on the selected panel)
+- Press `Enter` when selecting a task to mark it as completed
+- Press Enter when selecting a list to navigate into it
+- Use `CTRL + N` to create new tasks or lists (depends on the selected panel)
+- Use `CTRL + E` to edit a task or a list (depends on the selected panel)
+- Use `CTRL + D` to delete a task or a list (depends on the selected panel)
+- Use `CTRL + A` to navigate to All Tasks view
+
+Feel free to suggest more shortcuts or changes to existing shortcutes. :) 
+
+
 ### Contributions
 Plesae feel free to ask for features by [creating issues](https://github.com/bluzi/awesome-google-tasks/issues), or to implement features by [creating pull requests](https://github.com/bluzi/awesome-google-tasks/pulls).
 I'll do my best to review things as fast as I can, as I always try to do.
