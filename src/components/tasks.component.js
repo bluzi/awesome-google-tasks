@@ -82,7 +82,12 @@ class Tasks extends Component {
                             completed: task.status === 'completed',
                             selected: this.props.isSelected && this.state.selectedIndex === index
                         })} key={task.id} onMouseOver={() => this.select(index)}>
-                            <Tooltip title={task.notes || ''} disableHoverListener={!task.notes}>
+                            <Tooltip title={
+                                <div>
+                                    Last changed at {this.beautifyDate(task.updated)}
+                                    {task.notes && <div><br /><strong>Notes:</strong><br />{task.notes}</div>}
+                                </div>
+                            }>
                                 <Checkbox readOnly={!this.props.selectedList.id} checked={task.status === 'completed'} onChange={() => this.props.onTaskCheck(task)} />
                             </Tooltip>
 
@@ -180,6 +185,11 @@ class Tasks extends Component {
     select(index) {
         this.props.onSelect();
         this.setState({ selectedIndex: index });
+    }
+
+    beautifyDate(dateString) {
+        const dateTime = new Date(dateString);
+        return `${dateTime.getDate()}/${dateTime.getMonth()}/${dateTime.getFullYear()}`;
     }
 }
 

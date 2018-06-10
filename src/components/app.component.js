@@ -27,6 +27,12 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
+  },
+
+  topLoadingBar: {
+    position: 'absolute',
+    width: '100%',
+    zIndex: 2,
   }
 });
 
@@ -77,7 +83,9 @@ class App extends Component {
 
     if (this.state.isInitializing) {
       return (
-        <LinearProgress variant="query" />
+        <MuiThemeProvider theme={theme}>
+          <LinearProgress variant="query" />
+        </MuiThemeProvider>
       );
     } else {
       let title = '';
@@ -101,7 +109,7 @@ class App extends Component {
 
       return (
         <MuiThemeProvider theme={theme}>
-          {this.state.isLoading && <LinearProgress variant="query" />}
+          {this.state.isLoading && <LinearProgress variant="query" className={classes.topLoadingBar} />}
           <div className={classes.appFrame}>
 
             <Header
