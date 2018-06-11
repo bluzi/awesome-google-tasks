@@ -39,6 +39,14 @@
   </noscript>
 
   <div id="root"></div>
+
+  <script src=https://cdn.ravenjs.com/3.24.0/raven.min.js crossorigin="anonymous"></script>
+  <script>
+    Raven.config('https://0e4e2ecb73824f5683d9269ce8f167f6@sentry.io/1223382', {
+      release: '0-0-1',
+      environment: 'prod',
+    }).install()
+   </script>
 </body>
 
 </html>
