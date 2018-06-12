@@ -14,9 +14,13 @@
     "react-dom": "^16.4.0",
     "react-scripts": "^2.0.0-next.66cc7a90"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "hostile": "^1.3.2"
+  },
   "scripts": {
     "start": "react-scripts start",
+    "start:80": "PORT=80 npm start",
+    "start:alias": "hostile set localhost awesomegoogletasks.com && npm run start; hostile remove awesomegoogletasks.com",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

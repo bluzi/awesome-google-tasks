@@ -18,7 +18,6 @@ body {
   display: flex;
   flex-direction: row;
   padding: 5px 10px;
-  margin: 0px 1px;
 }
 
 .tasks-card .task:not(:last-child) {
@@ -37,11 +36,15 @@ body {
   text-decoration: line-through;
 }
 
-.tasks-card .task.selected {
-  background-color: #f1f1f1;
+.tasks-card .task.subtask {
+  padding-left: 50px;
 }
 
-.tasks-card .task.selected input {
+.tasks-card .task.subtask, .tasks-card .task.subtask input {
+  background-color: #fafafa;
+}
+
+.tasks-card .task.selected, .tasks-card .task.selected input {
   background-color: #f1f1f1;
 }
 
@@ -49,9 +52,4 @@ body {
   display: flex; 
   align-items: center;
   margin-right: 10px;
-}
-
-.tip {
-  font-size: 0.8em;
-  text-align: center;
 }

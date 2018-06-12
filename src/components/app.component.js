@@ -138,7 +138,8 @@ class App extends Component {
               onEditTask={this.handleEditTask.bind(this)}
               onNewTask={this.handleNewTask.bind(this)}
               onSelect={() => this.setState({ selectedItem: 'tasks' })}
-              />
+              onAddSubtask={this.handleAddSubtask.bind(this)}
+            />
 
             {this.state.openDialog === 'list' &&
               <CreateTaskListDiaog
@@ -174,6 +175,16 @@ class App extends Component {
     }
   }
 
+  async handleAddSubtask(task) {
+    if (this.state.selectedList.id) {
+      this.setState({ isLoading: true });
+      await googleTasksApi.insertTask({ taskListId: this.state.selectedList.id, title: '', parent: task.id })
+      const newTasks = (await googleTasksApi.listTasks(this.state.selectedList.id)) || [];
+      this.setTasks(newTasks);
+      this.setState({ isLoading: false });
+    }
+  }
+
   handleKeyDown(event) {
     const leftArrowKey = 37;
     const rightArrowKey = 39;
@@ -183,7 +194,7 @@ class App extends Component {
       this.setState({ selectedItem: 'taskLists' });
     } else if (event.keyCode === rightArrowKey) {
       this.setState({ selectedItem: 'tasks' });
-    } else if (event.ctrlKey + event.keyCode === allTasksKey) {
+    } else if (event.ctrlKey && event.keyCode === allTasksKey) {
       this.handleSelectedListChange('all');
       event.preventDefault();
     }
@@ -228,6 +239,22 @@ class App extends Component {
     this.setState({ editedTask: task, openDialog: 'task' });
   }
 
+  setTasks(tasks) {
+    const subtasks = tasks.filter(task => task.parent);
+    tasks = tasks.filter(task => !task.parent);
+
+    tasks = tasks.sort((a, b) => new Date(a.position) > new Date(b.position) ? 1 : new Date(b.position) > new Date(a.position) ? -1 : 0);
+
+    subtasks.forEach(subtask => {
+      const parent = tasks.find(task => task.id === subtask.parent);
+      if (parent) {
+        tasks.splice(tasks.indexOf(parent) + 1, 0, subtask);
+      }
+    });
+
+    this.setState({ tasks })
+  }
+
   handleEditTaskCancel() {
     this.setState({ editedTask: undefined, openDialog: undefined });
   }
@@ -236,7 +263,7 @@ class App extends Component {
     this.setState({ editedTask: undefined, openDialog: undefined });
 
     const newTasks = this.state.tasks.map(task => task.id === changedTask.id ? changedTask : task);
-    this.setState({ tasks: newTasks });
+    this.setTasks(newTasks);
     await googleTasksApi.updateTask({
       taskListId: this.state.selectedList.id,
       taskId: changedTask.id,
@@ -251,13 +278,15 @@ class App extends Component {
       this.setState({ isLoading: true });
       await googleTasksApi.deleteTask({ taskListId: this.state.selectedList.id, taskId: task.id });
       const newTasks = (await googleTasksApi.listTasks(this.state.selectedList.id)) || [];
-      this.setState({ tasks: newTasks, isLoading: false });
+      this.setTasks(newTasks);
+      this.setState({ isLoading: false });
 
       const undo = async () => {
         this.setState({ isLoading: true });
         await googleTasksApi.insertTask({ taskListId: this.state.selectedList.id, title: task.title, status: task.status, notes: task.notes, due: task.due });
         const newTasks = (await googleTasksApi.listTasks(this.state.selectedList.id)) || [];
-        this.setState({ tasks: newTasks, isLoading: false });
+        this.setTasks(newTasks)
+        this.setState({ isLoading: false });
         this.showNotification(`Task '${task.title}' has been restored`);
       }
 
@@ -270,7 +299,8 @@ class App extends Component {
       this.setState({ isLoading: true });
       await googleTasksApi.insertTask({ taskListId: this.state.selectedList.id, title: '' })
       const newTasks = (await googleTasksApi.listTasks(this.state.selectedList.id)) || [];
-      this.setState({ tasks: newTasks, isLoading: false });
+      this.setTasks(newTasks);
+      this.setState({ isLoading: false });
     }
   }
 
@@ -302,7 +332,7 @@ class App extends Component {
   handleTaskUpdate(changedTask, newTitle) {
     if (this.taskUpdateTimer) clearTimeout(this.taskUpdateTimer);
     const newTasks = this.state.tasks.map(task => task.id === changedTask.id ? { ...task, title: newTitle } : task);
-    this.setState({ tasks: newTasks });
+    this.setTasks(newTasks);
 
     this.taskUpdateTimer = setTimeout(async () => {
       await googleTasksApi.updateTask({ taskListId: this.state.selectedList.id, taskId: changedTask.id, title: newTitle });
@@ -312,7 +342,7 @@ class App extends Component {
   async handleTaskCheck(changedTask) {
     const newStatus = (changedTask.status === 'completed' ? 'needsAction' : 'completed');
     const newTasks = this.state.tasks.map(task => task.id === changedTask.id ? { ...task, status: newStatus } : task);
-    this.setState({ tasks: newTasks });
+    this.setTasks(newTasks);
     await googleTasksApi.updateTask({ taskListId: this.state.selectedList.id, taskId: changedTask.id, status: newStatus });
   }
 
