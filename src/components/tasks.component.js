@@ -90,24 +90,28 @@ class Tasks extends Component {
         const enterKey = 13;
         const editKey = 69;
         const deleteKey = 68;
-        const newKey = 78;
 
         if (event.keyCode === upArrowKey) {
+            event.preventDefault();
+            event.stopPropagation();
             const selectedIndex = (this.state.selectedIndex - 1 < 0) ? this.props.tasks.length - 1 : (this.state.selectedIndex - 1);
             this.setState({ selectedIndex });
         } else if (event.keyCode === downArrowKey) {
+            event.preventDefault();
+            event.stopPropagation();
             const selectedIndex = (this.state.selectedIndex + 1 > this.props.tasks.length - 1) ? 0 : (this.state.selectedIndex + 1);
             this.setState({ selectedIndex });
         } else if (this.props.tasks[this.state.selectedIndex]) {
             const selectedTask = this.props.tasks[this.state.selectedIndex];
             if (event.keyCode === enterKey) {
-                this.props.onTaskCheck(selectedTask);
+                if (event.ctrlKey) this.props.onTaskCheck(selectedTask);
+                else this.props.onNewTask(selectedTask);
             } else if (event.ctrlKey && event.keyCode === editKey) {
                 this.props.onEditTask(selectedTask);
             } else if (event.ctrlKey && event.keyCode === deleteKey) {
                 this.props.onDeleteTask(selectedTask);
-            } else if (event.ctrlKey && event.keyCode === newKey) {
-                this.props.onNewTask(selectedTask);
+                event.preventDefault();
+                event.stopPropagation();
             }
         }
     }

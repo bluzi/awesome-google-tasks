@@ -8,6 +8,15 @@ import classNames from 'classnames';
 import dateformat from 'dateformat';
 
 class Task extends Component {
+    // this.props.index === 0
+
+    componentDidUpdate() {
+        if (this.props.isSelected) {
+            this.titleInput.focus();
+            console.log('focusing on ' + this.titleInput);
+        }
+    }
+
     render() {
         return (
             <div className={classNames({
@@ -26,7 +35,7 @@ class Task extends Component {
 
                 <input
                     type="text"
-                    autoFocus={this.props.index === 0}
+                    ref={(titleInput) => this.titleInput = titleInput}
                     placeholder="What do you want to do?"
                     readOnly={this.props.isReadOnly}
                     value={this.props.task.title}
@@ -61,9 +70,14 @@ class Task extends Component {
     }
 
     handleKeyUp(event) {
-        if (event.keyCode === 13) {
+        const enterKey = 13;
+        const backspaceKey = 8;
+
+        if (event.keyCode === enterKey) {
             event.preventDefault();
             event.stopPropagation();
+        } else if (event.keyCode === backspaceKey && this.props.task.title.length === 0) {
+            this.props.onDelete();
         }
     }
 }

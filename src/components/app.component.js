@@ -111,8 +111,7 @@ class App extends Component {
           <div className={classes.appFrame}>
 
             <Header
-              onNewTaskList={this.handleNewTaskList.bind(this)}
-              onClearCompletedTasks={this.handleClearCompletedTasks.bind(this)} />
+              onNewTaskList={this.handleNewTaskList.bind(this)} />
 
             <TaskLists
               lists={this.state.lists}
@@ -203,13 +202,6 @@ class App extends Component {
     this.setState({ openDialog: undefined });
   }
 
-  async handleClearCompletedTasks(list) {
-    const completedTasks = (await this.listAllTasks()).filter(task => task.status === 'completed');
-    await Promise.all(
-      completedTasks.map(task => googleTasksApi.deleteTask({ taskId: task.id }))
-    );
-  }
-
   async handleRenameList(list) {
     this.setState({ editedList: list, openDialog: 'list' });
   }
@@ -266,7 +258,9 @@ class App extends Component {
         this.showNotification(`Task '${task.title}' has been restored`);
       }
 
-      this.showNotification(`Task '${task.title}' removed successfuly`, undo);
+      const notification = task.title ? `Task '${task.title}' removed successfuly` : 'Task removed successfuly';
+
+      this.showNotification(notification, undo);
     }
   }
 
@@ -313,7 +307,7 @@ class App extends Component {
     this.taskUpdateTimer = setTimeout(async () => {
       await googleTasksApi.updateTask({ taskListId: this.state.selectedList.id, taskId: changedTask.id, title: newTitle });
       this.showNotification('All changes saved');
-    }, 500);
+    }, 100);
   }
 
   async handleTaskCheck(changedTask) {
