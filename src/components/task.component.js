@@ -13,7 +13,8 @@ class Task extends Component {
     componentDidUpdate() {
         if (this.props.isSelected) {
             this.titleInput.focus();
-            console.log('focusing on ' + this.titleInput);
+        } else {
+            this.titleInput.blur();
         }
     }
 
