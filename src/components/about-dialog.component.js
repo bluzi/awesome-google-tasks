@@ -25,8 +25,6 @@ class AboutDialog extends React.Component {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Awesome Google Tasks was created by <a href="https://github.com/bluzi" target="_blank" rel="noopener noreferrer">@bluzi</a> after visitng to original Google Tasks website.
-                        <br />
                         This app is a client for Google Tasks, there is no server, and we do not store any of the data, so we don't steal your data, track you or whatever; If you trust Google with your data, you should trust this app.
                         <br />
                         Feel free to <a href="https://github.com/bluzi/awesome-google-tasks" target="_blank" rel="noopener noreferrer">browse the source code n GitHub</a>.
