@@ -36,14 +36,6 @@ body {
   text-decoration: line-through;
 }
 
-.tasks-card .task.subtask {
-  padding-left: 50px;
-}
-
-.tasks-card .task.subtask, .tasks-card .task.subtask input {
-  background-color: #fafafa;
-}
-
 .tasks-card .task.selected, .tasks-card .task.selected input {
   background-color: #f1f1f1;
 }

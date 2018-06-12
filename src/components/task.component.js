@@ -14,7 +14,6 @@ class Task extends Component {
                 task: true,
                 completed: this.props.task.status === 'completed',
                 selected: this.props.isSelected,
-                subtask: !!this.props.task.parent,
             })} onMouseOver={this.props.onMouseOver}>
                 <Tooltip title={
                     <div>
@@ -40,13 +39,6 @@ class Task extends Component {
                         <Chip label={dateformat(new Date(this.props.task.due), 'dd/mm/yyyy')} />
                     </div>
                 }
-
-                {!this.props.task.parent &&
-                    <Tooltip title="Add Subtask">
-                        <IconButton disabled={this.props.isReadOnly} onClick={this.props.onAddSubtask}>
-                            <Icon>add</Icon>
-                        </IconButton>
-                    </Tooltip>}
 
                 <Tooltip title="Edit Task">
                     <IconButton disabled={this.props.isReadOnly} onClick={this.props.onEdit}>

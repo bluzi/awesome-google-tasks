@@ -41,7 +41,7 @@ class Header extends Component {
 
             <Tooltip title="Add List">
               <IconButton color="inherit" onClick={this.props.onNewTaskList}>
-                <Icon>add</Icon>
+                <Icon>playlist_add</Icon>
               </IconButton>
             </Tooltip>
 

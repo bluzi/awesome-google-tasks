@@ -59,14 +59,12 @@ class App extends Component {
 
   async loadLists() {
     await googleTasksApi.authorize(config.clientId);
-    const lists = await googleTasksApi.listTaskLists();
+    const lists = (await googleTasksApi.listTaskLists()) || [];
 
     if (lists.length > 0) {
       const selectedList = lists[0];
-      const tasks = await googleTasksApi.listTasks(selectedList.id) || [];
+      const tasks = (await googleTasksApi.listTasks(selectedList.id)) || [];
       this.setState({ lists, selectedList, tasks, isInitializing: false, });
-    } else {
-      alert('no lists');
     }
   }
 
@@ -138,7 +136,6 @@ class App extends Component {
               onEditTask={this.handleEditTask.bind(this)}
               onNewTask={this.handleNewTask.bind(this)}
               onSelect={() => this.setState({ selectedItem: 'tasks' })}
-              onAddSubtask={this.handleAddSubtask.bind(this)}
             />
 
             {this.state.openDialog === 'list' &&
@@ -172,16 +169,6 @@ class App extends Component {
           </div>
         </MuiThemeProvider>
       );
-    }
-  }
-
-  async handleAddSubtask(task) {
-    if (this.state.selectedList.id) {
-      this.setState({ isLoading: true });
-      await googleTasksApi.insertTask({ taskListId: this.state.selectedList.id, title: '', parent: task.id })
-      const newTasks = (await googleTasksApi.listTasks(this.state.selectedList.id)) || [];
-      this.setTasks(newTasks);
-      this.setState({ isLoading: false });
     }
   }
 
@@ -240,18 +227,7 @@ class App extends Component {
   }
 
   setTasks(tasks) {
-    const subtasks = tasks.filter(task => task.parent);
-    tasks = tasks.filter(task => !task.parent);
-
     tasks = tasks.sort((a, b) => new Date(a.position) > new Date(b.position) ? 1 : new Date(b.position) > new Date(a.position) ? -1 : 0);
-
-    subtasks.forEach(subtask => {
-      const parent = tasks.find(task => task.id === subtask.parent);
-      if (parent) {
-        tasks.splice(tasks.indexOf(parent) + 1, 0, subtask);
-      }
-    });
-
     this.setState({ tasks })
   }
 
@@ -336,6 +312,7 @@ class App extends Component {
 
     this.taskUpdateTimer = setTimeout(async () => {
       await googleTasksApi.updateTask({ taskListId: this.state.selectedList.id, taskId: changedTask.id, title: newTitle });
+      this.showNotification('All changes saved');
     }, 500);
   }
 

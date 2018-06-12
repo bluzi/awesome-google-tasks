@@ -68,7 +68,6 @@ class Tasks extends Component {
                             onMouseOver={() => this.select(index)}
                             onDelete={() => this.props.onDeleteTask(task)}
                             onEdit={() => this.props.onEditTask(task)}
-                            onAddSubtask={() => this.props.onAddSubtask(task)}
                             onTaskUpdate={newTitle => this.props.onTaskUpdate(task, newTitle)}
                             onCheck={() => this.props.onTaskCheck(task)} />
                     )}
