@@ -87,7 +87,7 @@ class TaskLists extends Component {
                 <Divider />
                 <List>
                     {this.props.lists.map((list, index) =>
-                        <ListItem className={classNames({
+                        <ListItem button className={classNames({
                             [classes.selectedMenuItem]: list.id === this.props.selectedListId,
                             [classes.selected]: this.props.isSelected && this.state.selectedIndex === index
                         })} onClick={() => this.handleListClick(list)} key={list.id} onMouseOver={() => this.select(index)}>
