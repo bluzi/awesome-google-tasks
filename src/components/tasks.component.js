@@ -73,11 +73,12 @@ class Tasks extends Component {
                     )}
                 </Card>
 
-                <Tooltip title="Add Task">
-                    <Button variant="fab" color="secondary" className={classes.fab} onClick={this.props.onNewTask} disabled={!this.props.selectedList.id}>
-                        <Icon>add</Icon>
-                    </Button>
-                </Tooltip>
+                {this.props.selectedList.id &&
+                    <Tooltip title="Add Task">
+                        <Button variant="fab" color="secondary" className={classes.fab} onClick={this.props.onNewTask}>
+                            <Icon>add</Icon>
+                        </Button>
+                    </Tooltip>}
             </div>
         );
     }

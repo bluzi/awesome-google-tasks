@@ -38,9 +38,11 @@ class Header extends Component {
             </Typography>
 
             <Tooltip title="Add List">
-              <IconButton color="inherit" onClick={this.props.onNewTaskList}>
-                <Icon>playlist_add</Icon>
-              </IconButton>
+              <div>
+                <IconButton color="inherit" onClick={this.props.onNewTaskList}>
+                  <Icon>playlist_add</Icon>
+                </IconButton>
+              </div>
             </Tooltip>
           </Toolbar>
         </AppBar>

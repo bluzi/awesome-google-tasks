@@ -42,7 +42,8 @@ class Task extends Component {
                     value={this.props.task.title}
                     className="task-title"
                     onChange={event => this.props.onTaskUpdate(event.target.value)}
-                    onKeyUp={this.handleKeyUp.bind(this)} />
+                    onKeyUp={this.handleKeyUp.bind(this)}
+                    onKeyDown={this.handleKeyDown.bind(this)} />
 
                 {this.props.task.due &&
                     <div className="chip-container">
@@ -51,15 +52,19 @@ class Task extends Component {
                 }
 
                 <Tooltip title="Edit Task">
-                    <IconButton disabled={this.props.isReadOnly} onClick={this.props.onEdit}>
-                        <Icon>edit</Icon>
-                    </IconButton>
+                    <div>
+                        <IconButton disabled={this.props.isReadOnly} onClick={this.props.onEdit}>
+                            <Icon>edit</Icon>
+                        </IconButton>
+                    </div>
                 </Tooltip>
 
                 <Tooltip title="Delete Task">
-                    <IconButton disabled={this.props.isReadOnly} onClick={this.props.onDelete}>
-                        <Icon>delete</Icon>
-                    </IconButton>
+                    <div>
+                        <IconButton disabled={this.props.isReadOnly} onClick={this.props.onDelete}>
+                            <Icon>delete</Icon>
+                        </IconButton>
+                    </div>
                 </Tooltip>
             </div>
         );
@@ -72,13 +77,20 @@ class Task extends Component {
 
     handleKeyUp(event) {
         const enterKey = 13;
-        const backspaceKey = 8;
 
         if (event.keyCode === enterKey) {
             event.preventDefault();
             event.stopPropagation();
-        } else if (event.keyCode === backspaceKey && this.props.task.title.length === 0) {
+        }
+    }
+
+    handleKeyDown(event) {
+        const backspaceKey = 8;
+
+        if (event.keyCode === backspaceKey && this.props.task.title.length === 0) {
             this.props.onDelete();
+            event.preventDefault();
+            event.stopPropagation();
         }
     }
 }

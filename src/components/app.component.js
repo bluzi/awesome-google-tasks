@@ -12,6 +12,7 @@ import TaskLists from './task-lists.component';
 import Tasks from './tasks.component';
 import config from './../config';
 import googleTasksApi from 'google-tasks-api';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 
 const theme = createMuiTheme({
   palette: {
@@ -43,28 +44,37 @@ class App extends Component {
     isLoading: false,
     tasks: [],
     isDrawerOpen: false,
-    isInitializing: true,
     notification: undefined,
     editedList: undefined,
     editedTask: undefined,
     selectedItem: 'tasks',
     openDialog: undefined,
+    nextNewTaskPositon: 0,
+    appState: 'init',
   };
 
   constructor() {
     super();
 
-    this.loadLists();
+    googleTasksApi.authorize(config.clientId, 'redirect')
+      .then(() => this.init());
   }
 
-  async loadLists() {
-    await googleTasksApi.authorize(config.clientId);
-    const lists = (await googleTasksApi.listTaskLists()) || [];
+  async init() {
+    if (googleTasksApi.isSignedIn()) {
+      this.setState({ appState: 'init' }, async () => {
+        await googleTasksApi.loadClient();
+        const lists = (await googleTasksApi.listTaskLists()) || [];
 
-    if (lists.length > 0) {
-      const selectedList = lists[0];
-      const tasks = (await googleTasksApi.listTasks(selectedList.id)) || [];
-      this.setState({ lists, selectedList, tasks, isInitializing: false, });
+        if (lists.length > 0) {
+          const selectedList = lists[0];
+          const tasks = (await googleTasksApi.listTasks(selectedList.id)) || [];
+          this.setTasks(tasks);
+          this.setState({ appState: 'ready', lists, selectedList, });
+        }
+      });
+    } else {
+      this.setState({ appState: 'auth' });
     }
   }
 
@@ -79,13 +89,33 @@ class App extends Component {
   render() {
     const { classes } = this.props;
 
-    if (this.state.isInitializing) {
+    if (this.state.appState === 'init') {
       return (
         <MuiThemeProvider theme={theme}>
           <LinearProgress variant="query" />
         </MuiThemeProvider>
       );
-    } else {
+    } else if (this.state.appState === 'auth') {
+      return (
+        <MuiThemeProvider theme={theme}>
+          <Dialog open={true}>
+            <DialogTitle>
+              Hello
+            </DialogTitle>
+            <DialogContent>
+              Welcome to Awesome Google Tasks!
+              <br />
+              This is an alternative client to Google Tasks, so you have to sign in with your Google Account. 
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleSignInClick.bind(this)} color="primary">
+                Sign In with Google
+            </Button>
+            </DialogActions>
+          </Dialog>
+        </MuiThemeProvider>
+      );
+    } else if (this.state.appState === 'ready') {
       let title = '';
       switch (this.state.selectedList) {
         case 'all':
@@ -171,6 +201,11 @@ class App extends Component {
     }
   }
 
+  async handleSignInClick() {
+    await googleTasksApi.signIn();
+    this.init();
+  }
+
   handleKeyDown(event) {
     const leftArrowKey = 37;
     const rightArrowKey = 39;
@@ -219,7 +254,7 @@ class App extends Component {
   }
 
   setTasks(tasks) {
-    tasks = tasks.sort((a, b) => new Date(a.position) > new Date(b.position) ? 1 : new Date(b.position) > new Date(a.position) ? -1 : 0);
+    tasks = tasks.sort((a, b) => a.position > b.position ? 1 : b.position > a.position ? -1 : 0);
     this.setState({ tasks })
   }
 
@@ -241,24 +276,24 @@ class App extends Component {
     });
   }
 
-  async handleDeleteTask(task) {
+  async handleDeleteTask(deletedTask) {
     if (this.state.selectedList.id) {
       this.setState({ isLoading: true });
-      await googleTasksApi.deleteTask({ taskListId: this.state.selectedList.id, taskId: task.id });
-      const newTasks = (await googleTasksApi.listTasks(this.state.selectedList.id)) || [];
+      const newTasks = this.state.tasks.filter(task => task.id !== deletedTask.id);
       this.setTasks(newTasks);
+      await googleTasksApi.deleteTask({ taskListId: this.state.selectedList.id, taskId: deletedTask.id });
       this.setState({ isLoading: false });
 
       const undo = async () => {
         this.setState({ isLoading: true });
-        await googleTasksApi.insertTask({ taskListId: this.state.selectedList.id, title: task.title, status: task.status, notes: task.notes, due: task.due });
+        await googleTasksApi.insertTask({ taskListId: this.state.selectedList.id, title: deletedTask.title, status: deletedTask.status, notes: deletedTask.notes, due: deletedTask.due });
         const newTasks = (await googleTasksApi.listTasks(this.state.selectedList.id)) || [];
         this.setTasks(newTasks)
         this.setState({ isLoading: false });
-        this.showNotification(`Task '${task.title}' has been restored`);
+        this.showNotification(`Task '${deletedTask.title}' has been restored`);
       }
 
-      const notification = task.title ? `Task '${task.title}' removed successfuly` : 'Task removed successfuly';
+      const notification = deletedTask.title ? `Task '${deletedTask.title}' removed successfuly` : 'Task removed successfuly';
 
       this.showNotification(notification, undo);
     }
@@ -267,10 +302,11 @@ class App extends Component {
   async handleNewTask() {
     if (this.state.selectedList.id) {
       this.setState({ isLoading: true });
-      await googleTasksApi.insertTask({ taskListId: this.state.selectedList.id, title: '' })
-      const newTasks = (await googleTasksApi.listTasks(this.state.selectedList.id)) || [];
+      const newTask = await googleTasksApi.insertTask({ taskListId: this.state.selectedList.id, title: '' });
+      newTask.position = this.state.nextNewTaskPositon;
+      const newTasks = [...this.state.tasks, newTask]
       this.setTasks(newTasks);
-      this.setState({ isLoading: false });
+      this.setState({ isLoading: false, nextNewTaskPositon: this.state.nextNewTaskPositon - 1 });
     }
   }
 
@@ -307,7 +343,7 @@ class App extends Component {
     this.taskUpdateTimer = setTimeout(async () => {
       await googleTasksApi.updateTask({ taskListId: this.state.selectedList.id, taskId: changedTask.id, title: newTitle });
       this.showNotification('All changes saved');
-    }, 100);
+    }, 50);
   }
 
   async handleTaskCheck(changedTask) {

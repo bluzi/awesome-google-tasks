@@ -25,14 +25,12 @@ class AboutDialog extends React.Component {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        This app is a client for Google Tasks, there is no server, and we do not store any of the data, so we don't steal your data, track you or whatever; If you trust Google with your data, you should trust this app.
+                        <em>Awesome Google Tasks</em> is an alternative web client for <em>Google Tasks</em>.
                         <br />
-                        Feel free to <a href="https://github.com/bluzi/awesome-google-tasks" target="_blank" rel="noopener noreferrer">browse the source code n GitHub</a>.
+                        This project is open-source, and you can <a href="https://github.com/bluzi/awesome-google-tasks" target="_blank" rel="noopener noreferrer">view the source code on GitHub</a>.
                         <br />
                         <br />
-                        For the record, I do not hold any of the rights for Google Tasks, which is a Google product, we just use a public API to send and receive tasks from this client app.
-                        <br />
-                        Enjoy!
+                        If you have any questions, feel free to reach out on <a href="https://github.com/bluzi" target="_blank" rel="noopener noreferrer">GitHub</a>, <a href="https://twitter.com/eliranpeer" target="_blank" rel="noopener noreferrer">Twitter</a> or <a href="mailto:info@awesomegoogletasks.com" target="_blank" rel="noopener noreferrer">via email</a>.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
