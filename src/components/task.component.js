@@ -25,12 +25,7 @@ class Task extends Component {
                 completed: this.props.task.status === 'completed',
                 selected: this.props.isSelected,
             })} onMouseOver={this.props.onMouseOver}>
-                <Tooltip title={
-                    <div>
-                        Last changed at {this.beautifyDate(this.props.task.updated)}
-                        {this.props.task.notes && <div><br /><strong>Notes:</strong><br />{this.props.task.notes}</div>}
-                    </div>
-                }>
+                <Tooltip title={this.beautifyDate(this.props.task.updated)}>
                     <Checkbox readOnly={this.props.isReadOnly} checked={this.props.task.status === 'completed'} onChange={this.props.onCheck} />
                 </Tooltip>
 
@@ -45,13 +40,21 @@ class Task extends Component {
                     onKeyUp={this.handleKeyUp.bind(this)}
                     onKeyDown={this.handleKeyDown.bind(this)} />
 
+                {this.props.task.notes &&
+                    <div className="chip-container">
+                        <Tooltip title={this.props.task.notes}>
+                            <Chip label="Details" />
+                        </Tooltip>
+                    </div>
+                }
+
                 {this.props.task.due &&
                     <div className="chip-container">
                         <Chip label={dateformat(new Date(this.props.task.due), 'dd/mm/yyyy')} />
                     </div>
                 }
 
-                <Tooltip title="Edit Task">
+                <Tooltip title="Edit Task (Ctrl + E)">
                     <div>
                         <IconButton disabled={this.props.isReadOnly} onClick={this.props.onEdit}>
                             <Icon>edit</Icon>
@@ -59,7 +62,7 @@ class Task extends Component {
                     </div>
                 </Tooltip>
 
-                <Tooltip title="Delete Task">
+                <Tooltip title="Delete Task (Ctrl + D)">
                     <div>
                         <IconButton disabled={this.props.isReadOnly} onClick={this.props.onDelete}>
                             <Icon>delete</Icon>

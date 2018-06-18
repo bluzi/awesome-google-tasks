@@ -354,6 +354,8 @@ class App extends Component {
   }
 
   async handleSelectedListChange(list) {
+    if (list === this.state.selectedList || (list.id && list.id === this.state.selectedList.id)) return;
+
     this.setState({ isLoading: true, });
     let tasks = [];
 
