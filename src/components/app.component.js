@@ -385,7 +385,11 @@ class App extends Component {
   async listAllTasks() {
     const tasks = [];
     for (const list of this.state.lists) {
-      tasks.push(...(await googleTasksApi.listTasks(list.id)));
+      const listsTasks = (await googleTasksApi.listTasks(list.id));
+      
+      if (listsTasks) {
+        tasks.push(...listsTasks);
+      }
     }
 
     return tasks;
