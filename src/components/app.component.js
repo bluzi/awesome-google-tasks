@@ -80,10 +80,12 @@ class App extends Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
+    window.addEventListener("beforeunload", this.onUnload.bind(this))
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyDown);
+    window.removeEventListener("beforeunload", this.onUnload.bind(this))
   }
 
   render() {
@@ -198,6 +200,13 @@ class App extends Component {
           </div>
         </MuiThemeProvider>
       );
+    }
+  }
+
+  onUnload(e) {
+    if (this.taskUpdateTimer) {
+      e.returnValue = 'Oops! Looks like Awesome Google Tasks is still saving your data, are you sure you want out?';
+      return e.returnValue;
     }
   }
 
@@ -342,6 +351,7 @@ class App extends Component {
 
     this.taskUpdateTimer = setTimeout(async () => {
       await googleTasksApi.updateTask({ taskListId: this.state.selectedList.id, taskId: changedTask.id, title: newTitle });
+      this.taskUpdateTimer = undefined;
       this.showNotification('All changes saved');
     }, 50);
   }
