@@ -8,8 +8,7 @@ Alternative Web UI for Google Tasks made with React
 </div>
 
 ### Why?
-Google Tasks is awesome, and it has a [beautiful mobile app](https://play.google.com/store/apps/details?id=com.google.android.apps.tasks&hl=en), but for some reason, [someone in Google completely forgot the Web UI in the 90's](https://mail.google.com/tasks/canvas).
-I couldn't stand aside watching the wasted potential, so I took matters into my own hands and created this web app.
+Because Google Tasks is awesome.
 
 ### What?
 Awesome Google Tasks is a web client for Google Tasks. We use Google's public API to query and modify your tasks, so that anything you see in the mobile app and the original website is available through Awesome Google Tasks, and vice-versa.
