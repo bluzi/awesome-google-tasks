@@ -25,7 +25,10 @@ class Task extends Component {
                 completed: this.props.task.status === 'completed',
                 selected: this.props.isSelected,
             })} onMouseOver={this.props.onMouseOver}>
-                <Tooltip title={this.beautifyDate(this.props.task.updated)}>
+                {this.props.task.parent &&
+                    <div className="child-space"/>
+                }
+                <Tooltip title={dateformat(new Date(this.props.task.updated), 'mm/dd/yyyy')}>
                     <Checkbox readOnly={this.props.isReadOnly} checked={this.props.task.status === 'completed'} onChange={this.props.onCheck} />
                 </Tooltip>
 
@@ -50,11 +53,11 @@ class Task extends Component {
 
                 {this.props.task.due &&
                     <div className="chip-container">
-                        <Chip label={dateformat(new Date(this.props.task.due), 'dd/mm/yyyy')} />
+                        <Chip label={dateformat(new Date(this.props.task.due), 'mm/dd/yyyy')} />
                     </div>
                 }
 
-                <Tooltip title="Edit Task (Ctrl + E)">
+                <Tooltip title="Edit Task (Ctrl + Q)">
                     <div>
                         <IconButton disabled={this.props.isReadOnly} onClick={this.props.onEdit}>
                             <Icon>edit</Icon>
@@ -71,11 +74,6 @@ class Task extends Component {
                 </Tooltip>
             </div>
         );
-    }
-
-    beautifyDate(dateString) {
-        const dateTime = new Date(dateString);
-        return `${dateTime.getDate()}/${dateTime.getMonth()}/${dateTime.getFullYear()}`;
     }
 
     handleKeyUp(event) {

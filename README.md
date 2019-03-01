@@ -3,6 +3,15 @@ Alternative Web UI for Google Tasks made with React
 
 <a href="https://awesomegoogletasks.com">Check it out</a>
 
+### What's different in this Fork?
+- Added automatic and manual refreshing
+- Added support for viewing subtasks
+- Changed About modal
+- Changed a couple shortcuts that were intercepted by the browser
+- Changed everything to be dark themed
+- Fixed some cases where the tasks would be sorted incorrectly
+- Made the app stretch to fill all available vertical space
+
 <div align="center">
   <img src="https://image.ibb.co/dxi5aJ/screely_1528833277494.png" />
 </div>
@@ -27,20 +36,21 @@ Feel free to browse the code and ask questions by [creating issues](https://gith
 ### Awesome Features
 #### Keyboard Shortcuts
 The following shortcuts are available: 
-- Use the left and right arrow keys to navigate between the tasks panel and the lists panel
-- Use the up and down arrow keys to navigate between tasks/lists (depends on the selected panel)
-- Press `Enter` when selecting a task to mark it as completed
+- Use up/down arrows to navigate between tasks/lists
+- Use `CTRL + left/right` arrows to navigate between the tasks and the lists panel
 - Press Enter when selecting a list to navigate into it
-- Use `CTRL + N` to create new tasks or lists (depends on the selected panel)
-- Use `CTRL + E` to edit a task or a list (depends on the selected panel)
-- Use `CTRL + D` to delete a task or a list (depends on the selected panel)
+- Press Enter when selecting a task to create a new task
+- Use `CTRL + Enter` when selecting a task to mark it as completed
+- Use `CTRL + N` to create new tasks or lists
+- Use `CTRL + Q` to edit a task or a list
+- Use `CTRL + D` to delete a task or a list
 - Use `CTRL + A` to navigate to All Tasks view
 
-Feel free to suggest more shortcuts or changes to existing shortcutes. :) 
+Feel free to suggest more shortcuts or changes to existing shortcuts. :) 
 
 
 ### Contributions
-Plesae feel free to ask for features by [creating issues](https://github.com/bluzi/awesome-google-tasks/issues), or to implement features by [creating pull requests](https://github.com/bluzi/awesome-google-tasks/pulls).
+Please feel free to ask for features by [creating issues](https://github.com/bluzi/awesome-google-tasks/issues), or to implement features by [creating pull requests](https://github.com/bluzi/awesome-google-tasks/pulls).
 I'll do my best to review things as fast as I can, as I always try to do.
 
 If you find any errors or strange behaviors, please report them by [creating an issue](https://github.com/bluzi/awesome-google-tasks/issues).

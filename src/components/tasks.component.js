@@ -75,7 +75,7 @@ class Tasks extends Component {
 
                 {this.props.selectedList.id &&
                     <Tooltip title="Add Task (Enter)">
-                        <Button variant="fab" color="secondary" className={classes.fab} onClick={this.props.onNewTask}>
+                        <Button variant="fab" color="primary" className={classes.fab} onClick={this.props.onNewTask}>
                             <Icon>add</Icon>
                         </Button>
                     </Tooltip>}
@@ -89,7 +89,7 @@ class Tasks extends Component {
         const upArrowKey = 38;
         const downArrowKey = 40;
         const enterKey = 13;
-        const editKey = 69;
+        const editKey = 81;
         const deleteKey = 68;
 
         if (event.keyCode === upArrowKey) {

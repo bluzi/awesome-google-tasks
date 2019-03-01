@@ -35,7 +35,7 @@ const styles = theme => ({
     // icon: {},
 
     selected: {
-        backgroundColor: '#f1f1f1'
+        backgroundColor: '#212121'
     }
 });
 
@@ -107,18 +107,6 @@ class TaskLists extends Component {
                 </List>
                 <Divider />
                 <List>
-                    <ListItem button onClick={() => window.open('https://www.github.com/bluzi/awesome-google-tasks')}>
-                        <ListItemIcon>
-                            <Icon>code</Icon>
-                        </ListItemIcon>
-                        <ListItemText primary="View Source on GitHub" />
-                    </ListItem>
-                    <ListItem button onClick={() => window.open('https://mail.google.com/tasks/canvas')}>
-                        <ListItemIcon>
-                            <Icon>http</Icon>
-                        </ListItemIcon>
-                        <ListItemText primary="Original Site" />
-                    </ListItem>
                     <ListItem button onClick={this.props.onAboutClick}>
                         <ListItemIcon>
                             <Icon>info</Icon>

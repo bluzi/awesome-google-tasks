@@ -27,11 +27,26 @@ class AboutDialog extends React.Component {
                     <DialogContentText>
                         <em>Awesome Google Tasks</em> is an alternative web client for <em>Google Tasks</em>.
                         <br />
-                        This project is open-source, and you can <a href="https://github.com/bluzi/awesome-google-tasks" target="_blank" rel="noopener noreferrer">view the source code on GitHub</a>.
                         <br />
+                        Use CTRL + left/right arrows to navigate between the tasks and the lists panel
                         <br />
-                        If you have any questions, feel free to reach out on <a href="https://github.com/bluzi" target="_blank" rel="noopener noreferrer">GitHub</a>, <a href="https://twitter.com/eliranpeer" target="_blank" rel="noopener noreferrer">Twitter</a> or <a href="mailto:info@awesomegoogletasks.com" target="_blank" rel="noopener noreferrer">via email</a>.
-                    </DialogContentText>
+                        Use up/down arrows to navigate between tasks/lists
+                        <br />
+                        Press Enter when selecting a list to navigate into it
+                        <br />
+                        Press Enter when selecting a task to create a new task
+                        <br />
+                        Use CTRL + Enter when selecting a task to mark it as completed
+                        <br />
+                        Use CTRL + N to create new tasks or lists
+                        <br />
+                        Use CTRL + Q to edit a task or a list
+                        <br />
+                        Use CTRL + D to delete a task or a list
+                        <br />
+                        Use CTRL + A to navigate to All Tasks view
+                        <br />
+                        </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleClose.bind(this)} color="primary">

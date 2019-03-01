@@ -1,7 +1,13 @@
 body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  background-color: #303030;
   font-family: sans-serif;
+}
+
+.App-appFrame-1 {
+  min-height: 100vh;
 }
 
 .tasks-card {
@@ -21,7 +27,7 @@ body {
 }
 
 .tasks-card .task:not(:last-child) {
-  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 1px solid #212121;
 }
 
 .tasks-card .task .task-title {
@@ -37,11 +43,20 @@ body {
 }
 
 .tasks-card .task.selected, .tasks-card .task.selected input {
-  background-color: #f1f1f1;
+  background-color: #212121;
 }
 
 .tasks-card .task .chip-container {
   display: flex; 
   align-items: center;
   margin-right: 10px;
+}
+
+.child-space {
+  margin-right: 30px;
+}
+
+input {
+  background-color: #424242;
+  color: #fafafa;
 }
