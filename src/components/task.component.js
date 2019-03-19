@@ -32,6 +32,8 @@ class Task extends Component {
                     <Checkbox readOnly={this.props.isReadOnly} checked={this.props.task.status === 'completed'} onChange={this.props.onCheck} />
                 </Tooltip>
 
+                <div className="task-container">
+
                 <input
                     type="text"
                     ref={(titleInput) => this.titleInput = titleInput}
@@ -42,6 +44,10 @@ class Task extends Component {
                     onChange={event => this.props.onTaskUpdate(event.target.value)}
                     onKeyUp={this.handleKeyUp.bind(this)}
                     onKeyDown={this.handleKeyDown.bind(this)} />
+                
+                <p className="task-description">{this.props.task.notes}</p>
+
+                </div>
 
                 {this.props.task.notes &&
                     <div className="chip-container">

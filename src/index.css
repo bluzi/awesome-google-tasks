@@ -30,11 +30,31 @@ body {
   border-bottom: 1px solid #212121;
 }
 
+.task-container {
+  flex: 1;
+  outline: none;
+  border: 0;
+  width:10px;
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+.task-description {
+  color: #eeeeee;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  margin-top:2px;
+  margin-bottom: 0px;
+}
+
 .tasks-card .task .task-title {
   flex: 1;
   outline: none;
   border: 0;
-  font-size: 14px;
+  font-size: 16px;
+  width: 100%;
 }
 
 .tasks-card .task.completed .task-title {

@@ -69,7 +69,7 @@ class CreateTaskDialog extends React.Component {
                         type="text"
                         label="Details"
                         multiline
-                        rows="5"
+                        rows="20"
                         defaultValue={this.state.task.notes}
                         onChange={event => this.setState({ task: { ...this.state.task, notes: event.target.value } })}
                     />

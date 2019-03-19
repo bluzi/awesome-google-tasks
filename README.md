@@ -6,6 +6,7 @@ Alternative Web UI for Google Tasks made with React
 ### What's different in this Fork?
 - Added automatic and manual refreshing
 - Added support for viewing subtasks
+- Added descriptions on the main view
 - Changed About modal
 - Changed a couple shortcuts that were intercepted by the browser
 - Changed everything to be dark themed
