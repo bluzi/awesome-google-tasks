@@ -11,10 +11,11 @@ Alternative Web UI for Google Tasks made with React
 - Changed a couple shortcuts that were intercepted by the browser
 - Changed everything to be dark themed
 - Fixed some cases where the tasks would be sorted incorrectly
+- Fixed the app failing to save changes if too many changes are made at once
 - Made the app stretch to fill all available vertical space
 
 <div align="center">
-  <img src="https://image.ibb.co/dxi5aJ/screely_1528833277494.png" />
+  <img src="./demo.png" />
 </div>
 
 ### Why?

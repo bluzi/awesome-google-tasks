@@ -18,7 +18,7 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
-      main: '#B24200' //B24200
+      main: '#B24200' //4995EC
     },
   }
 });
@@ -301,6 +301,7 @@ class App extends Component {
       notes: changedTask.notes,
       due: Date.parse(changedTask.due) ? changedTask.due : undefined,
     });
+    this.showNotification('All changes saved');
   }
 
   async handleDeleteTask(deletedTask) {
@@ -371,7 +372,7 @@ class App extends Component {
       await googleTasksApi.updateTask({ taskListId: this.state.selectedList.id, taskId: changedTask.id, title: newTitle });
       this.taskUpdateTimer = undefined;
       this.showNotification('All changes saved');
-    }, 50);
+    }, 1000);
   }
 
   async handleTaskCheck(changedTask) {

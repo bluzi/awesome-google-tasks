@@ -3,6 +3,7 @@
   "description": "Google Tasks for humans: Alternative Web UI for Google Tasks made with React",
   "author": "Eliran Pe'er <eliran013@gmail.com> (https://github.com/bluzi)",
   "version": "0.1.0",
+  "homepage": ".",
   "dependencies": {
     "@material-ui/core": "^1.2.0",
     "@material-ui/icons": "^1.1.0",
