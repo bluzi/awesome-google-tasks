@@ -59,7 +59,7 @@ class Task extends Component {
 
                 {this.props.task.due &&
                     <div className="chip-container">
-                        <Chip label={dateformat(new Date(this.props.task.due), 'mm/dd/yyyy')} />
+                        <Chip label={dateformat(new Date(this.props.task.due), 'mm/dd/yyyy', true)} />
                     </div>
                 }
 
