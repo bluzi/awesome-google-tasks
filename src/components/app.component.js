@@ -16,9 +16,8 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/
 
 const theme = createMuiTheme({
   palette: {
-    type: 'dark',
     primary: {
-      main: '#B24200' //4995EC
+      main: '#4995EC'
     },
   }
 });

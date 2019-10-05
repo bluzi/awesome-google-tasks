@@ -2,7 +2,6 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #303030;
   font-family: sans-serif;
 }
 
@@ -27,7 +26,7 @@ body {
 }
 
 .tasks-card .task:not(:last-child) {
-  border-bottom: 1px solid #212121;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .task-container {
@@ -40,7 +39,6 @@ body {
 }
 
 .task-description {
-  color: #eeeeee;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -68,7 +66,7 @@ body {
 }
 
 .tasks-card .task.selected, .tasks-card .task.selected input {
-  background-color: #212121;
+  background-color: #f1f1f1;
 }
 
 .tasks-card .task .chip-container {
@@ -79,9 +77,4 @@ body {
 
 .child-space {
   margin-right: 30px;
-}
-
-input {
-  background-color: #424242;
-  color: #fafafa;
 }

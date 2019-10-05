@@ -27,6 +27,11 @@ class AboutDialog extends React.Component {
                     <DialogContentText>
                         <em>Awesome Google Tasks</em> is an alternative web client for <em>Google Tasks</em>.
                         <br />
+                        This project is open-source, and you can <a href="https://github.com/bluzi/awesome-google-tasks" target="_blank" rel="noopener noreferrer">view the source code on GitHub</a>.
+                        <br />
+                        <br />
+                        If you have any questions, feel free to reach out on <a href="https://github.com/bluzi" target="_blank" rel="noopener noreferrer">GitHub</a>, <a href="https://twitter.com/eliranpeer" target="_blank" rel="noopener noreferrer">Twitter</a> or <a href="mailto:info@awesomegoogletasks.com" target="_blank" rel="noopener noreferrer">via email</a>.
+                        <br />
                         <br />
                         Use CTRL + left/right arrows to navigate between the tasks and the lists panel
                         <br />
@@ -46,7 +51,7 @@ class AboutDialog extends React.Component {
                         <br />
                         Use CTRL + A to navigate to All Tasks view
                         <br />
-                        </DialogContentText>
+                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleClose.bind(this)} color="primary">

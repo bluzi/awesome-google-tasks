@@ -28,7 +28,7 @@ class Task extends Component {
                 {this.props.task.parent &&
                     <div className="child-space"/>
                 }
-                <Tooltip title={dateformat(new Date(this.props.task.updated), 'mm/dd/yyyy')}>
+                <Tooltip title={dateformat(new Date(this.props.task.updated), 'dd/mm/yyyy')}>
                     <Checkbox readOnly={this.props.isReadOnly} checked={this.props.task.status === 'completed'} onChange={this.props.onCheck} />
                 </Tooltip>
 
@@ -59,7 +59,7 @@ class Task extends Component {
 
                 {this.props.task.due &&
                     <div className="chip-container">
-                        <Chip label={dateformat(new Date(this.props.task.due), 'mm/dd/yyyy', true)} />
+                        <Chip label={dateformat(new Date(this.props.task.due), 'dd/mm/yyyy', true)} />
                     </div>
                 }
 
