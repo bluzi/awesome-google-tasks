@@ -37,6 +37,13 @@ class Header extends Component {
               Awesome Google Tasks
             </Typography>
 
+            <Tooltip title="Refresh">
+              <div>
+                <IconButton color="inherit" onClick={this.props.refreshList}>
+                  <Icon>refresh</Icon>
+                </IconButton>
+              </div>
+            </Tooltip>
             <Tooltip title="Add List">
               <div>
                 <IconButton color="inherit" onClick={this.props.onNewTaskList}>

@@ -1,7 +1,12 @@
 body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
   font-family: sans-serif;
+}
+
+.App-appFrame-1 {
+  min-height: 100vh;
 }
 
 .tasks-card {
@@ -24,14 +29,38 @@ body {
   border-bottom: 1px solid #f1f1f1;
 }
 
+.task-container {
+  flex: 1;
+  outline: none;
+  border: 0;
+  width:10px;
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+.task-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  margin-top:2px;
+  margin-bottom: 0px;
+}
+
 .tasks-card .task .task-title {
   flex: 1;
   outline: none;
   border: 0;
-  font-size: 14px;
+  font-size: 16px;
+  width: 100%;
 }
 
 .tasks-card .task.completed .task-title {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+
+.tasks-card .task.completed .task-description {
   opacity: 0.3;
   text-decoration: line-through;
 }
@@ -44,4 +73,8 @@ body {
   display: flex; 
   align-items: center;
   margin-right: 10px;
+}
+
+.child-space {
+  margin-right: 30px;
 }

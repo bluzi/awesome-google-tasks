@@ -73,6 +73,7 @@ class App extends Component {
           this.setState({ appState: 'ready', lists, selectedList, });
         }
       });
+      setTimeout(() => this.refreshList(), 5*60*1000);
     } else {
       this.setState({ appState: 'auth' });
     }
@@ -143,7 +144,8 @@ class App extends Component {
           <div className={classes.appFrame}>
 
             <Header
-              onNewTaskList={this.handleNewTaskList.bind(this)} />
+              onNewTaskList={this.handleNewTaskList.bind(this)}
+              refreshList={this.refreshList.bind(this)} />
 
             <TaskLists
               lists={this.state.lists}
@@ -194,7 +196,7 @@ class App extends Component {
                 open={true}
                 message={this.state.notification.message}
                 action={this.state.notification.undoHandler &&
-                  <Button onClick={this.state.notification.undoHandler.bind(this)} color="secondary" size="small">Undo</Button>
+                  <Button onClick={this.state.notification.undoHandler.bind(this)} color="primary" size="small">Undo</Button>
                 } />
             }
           </div>
@@ -220,9 +222,9 @@ class App extends Component {
     const rightArrowKey = 39;
     const allTasksKey = 65;
 
-    if (event.keyCode === leftArrowKey) {
+    if (event.ctrlKey && event.keyCode === leftArrowKey) {
       this.setState({ selectedItem: 'taskLists' });
-    } else if (event.keyCode === rightArrowKey) {
+    } else if (event.ctrlKey && event.keyCode === rightArrowKey) {
       this.setState({ selectedItem: 'tasks' });
     } else if (event.ctrlKey && event.keyCode === allTasksKey) {
       this.handleSelectedListChange('all');
@@ -264,6 +266,21 @@ class App extends Component {
 
   setTasks(tasks) {
     tasks = tasks.sort((a, b) => a.position > b.position ? 1 : b.position > a.position ? -1 : 0);
+    for (let i=0;i<tasks.length;i++)
+    {
+      if (tasks[i].hasOwnProperty('parent'))
+      {
+        let temp = tasks[i];
+        let parentId = tasks[i].parent;
+        tasks.splice(i,1);
+        let parent = tasks.findIndex((el) => el.id === parentId);
+        while (tasks[parent+1].hasOwnProperty('parent'))
+          {
+            parent++;
+          }
+        tasks.splice(parent+1,0,temp);
+      }
+    }
     this.setState({ tasks })
   }
 
@@ -283,6 +300,7 @@ class App extends Component {
       notes: changedTask.notes,
       due: Date.parse(changedTask.due) ? changedTask.due : undefined,
     });
+    this.showNotification('All changes saved');
   }
 
   async handleDeleteTask(deletedTask) {
@@ -353,7 +371,7 @@ class App extends Component {
       await googleTasksApi.updateTask({ taskListId: this.state.selectedList.id, taskId: changedTask.id, title: newTitle });
       this.taskUpdateTimer = undefined;
       this.showNotification('All changes saved');
-    }, 50);
+    }, 1000);
   }
 
   async handleTaskCheck(changedTask) {
@@ -379,7 +397,8 @@ class App extends Component {
       tasks = (await googleTasksApi.listTasks(list.id)) || [];
     }
 
-    this.setState({ selectedList: list, tasks, isLoading: false, })
+    this.setTasks(tasks);
+    this.setState({ selectedList: list, isLoading: false, })
   }
 
   async listAllTasks() {
@@ -393,6 +412,26 @@ class App extends Component {
     }
 
     return tasks;
+  }
+
+  async refreshList() {
+  
+    this.setState({ isLoading: true, });
+    let tasks = [];
+  
+    if (this.state.selectedList === 'all') {
+      tasks = await this.listAllTasks();
+    } else if (this.state.selectedList === 'completed') {
+      tasks = (await this.listAllTasks()).filter(task => task.status === 'completed');
+    } else if (this.state.selectedList === 'incomplete') {
+      tasks = (await this.listAllTasks()).filter(task => task.status !== 'completed');
+    } else {
+      tasks = (await googleTasksApi.listTasks(this.state.selectedList.id)) || [];
+    }
+  
+    this.setTasks(tasks);
+    this.setState({ isLoading: false, })
+    setTimeout(() => this.refreshList(), 5*60*1000);
   }
 }
 
